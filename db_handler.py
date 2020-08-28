@@ -11,6 +11,13 @@ NAME OF DB - israeli_tweets
 NAME OF COLLECTION - tweets
 """
 
+
+# Search types
+SINGLE_SEARCH = "single_search"
+UNI_SEARCH = "uni_search"
+INTER_SEARCH = "inter_search"
+
+
 class DBClient():
     def __init__(self):
         self.client = None
@@ -32,26 +39,71 @@ class DBClient():
     def close(self):
         try:
             self.client.close()
-            print("client closed.")
         except Exception as e:
             print(e)
 
-    def insert_document(self, data):
-        data_json_format = json.loads(data)
+    def insert_document(self, document):
+        document_json_format = json.loads(document)
         try:
-            self.collection.insert_one(data_json_format)
+            self.collection.insert_one(document_json_format)
         except Exception as e:
             print(e)
 
+    def find_single_document(self, param):
+        if not param:
+            return None
+        document = None
+        try:
+            document = self.collection.find_one(param)
+        except Exception as e:
+            print(e)
+        return document
+
+    def find_documents(self, param):
+        if not param:
+            return None
+        documents = None
+        try:
+            documents = list(self.collection.find(param))
+        except Exception as e:
+            print(e)
+        return documents
 
 """
-===  Example for using this module:  ====
-if __name__ == '__main__':
-    data = '{"value": 1 }'
-    db_client = DBClient()
-    db_client.connect()
-    db_client.set_tweets_db()
-    db_client.set_tweets_collection()
-    db_client.insert_document(data)
-    db_client.close()
+    ====    REDUNDANT CODE     ====
+    
+    def find_documents_unification(self, param_list):
+        if not param_list:
+            return None
+        documents_list = []
+        try:
+            db_documents = list(self.collection.find())     # convert to list
+            for doc in db_documents:
+                i = 0
+                while i < len(param_list):
+                    if str(param_list[i]) in str(doc):    # 1 parameter is enough to enter document_list
+                        documents_list.append(doc)
+                        break
+                    i = i + 1
+        except Exception as e:
+            print(e)
+        return documents_list
+
+    def find_documents_intersection(self, param_list):
+        if not param_list:
+            return None
+        documents_list = []
+        try:
+            db_documents = list(self.collection.find())    # convert to list
+            documents_list = db_documents.copy()           #init document_list to have all docs.
+            for doc in db_documents:
+                i = 0
+                while i < len(param_list):
+                    if str(param_list[i]) not in str(doc):    # 1 parameter not included is enough to be removed!
+                        documents_list.remove(doc)
+                        break
+                    i = i + 1
+        except Exception as e:
+            print(e)
+        return documents_list
 """
