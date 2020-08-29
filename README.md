@@ -25,7 +25,7 @@ NAME OF COLLECTION - tweets
 # API PROTOCOL:
 ## Documentation for drawing documents from database.
     
-##SINGLE DOCUMENT:
+## SINGLE DOCUMENT:
 if you want to look for a single document,the parameter that you are passing should be a dict. 
 it is important to check your keys and values types, and enter them correctly for getting your desired document. 
 
@@ -47,27 +47,28 @@ param = [{'id': 1298946817443401728}, {'id_str': '2735258479'} ]
 ## Code Example:
 ### ( see test_api for more details )
 
+    import time
 
-import  twitter_streaming
+    import  twitter_streaming
 
-def main():
+    def main():
 
-    print("starting app.....")]
-    
-    # Declaring streamer and pull_tweets_client variables:
-    streamer = twitter_streamer.AsyncTwitterStreamer(twitter_streamer.IL_LOCATION)
-    pull_tweets_client = twitter_streamer.PullTweetsFromDB()
+        print("starting app.....")]
 
-    # Start streaming tweets:
-    pull_tweets_client.set_db_client()
-    streamer.start()
-    print("streamer started")
-    
-    # let the database consume tweets for a while
-    time.sleep(15)
-    streamer.stop()
+        # Declaring streamer and pull_tweets_client variables:
+        streamer = twitter_streamer.AsyncTwitterStreamer(twitter_streamer.IL_LOCATION)
+        pull_tweets_client = twitter_streamer.PullTweetsFromDB()
+
+        # Start streaming tweets:
+        pull_tweets_client.set_db_client()
+        streamer.start()
+        print("streamer started")
+
+        # let the database consume tweets for a while
+        time.sleep(15)
+        streamer.stop()
 
 
-if __name__ == '__main__':
-    main()
+    if __name__ == '__main__':
+        main()
 
