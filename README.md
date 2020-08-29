@@ -52,8 +52,7 @@ param = [{'id': 1298946817443401728}, {'id_str': '2735258479'} ]
     import  twitter_streaming
 
     def main():
-
-        print("starting app.....")]
+        print("starting app.....")
 
         # Declaring streamer and pull_tweets_client variables:
         streamer = twitter_streamer.AsyncTwitterStreamer(twitter_streamer.IL_LOCATION)
